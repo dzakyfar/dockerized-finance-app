@@ -197,7 +197,7 @@ function Dashboard({ user, onLogout }) {
                       <div 
                         className="progress-fill" 
                         style={{ 
-                          width: `${percentage}%`,
+                          width: "${percentage}%",
                           backgroundColor: stat.color 
                         }}
                       ></div>

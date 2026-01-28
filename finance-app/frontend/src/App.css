@@ -1,5 +1,5 @@
 .App {
-  min-height: 100vh;
+  min-block-size: 100vh;
 }
 
 .loading-container {
@@ -7,15 +7,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-block-size: 100vh;
   gap: 20px;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
+  inline-size: 50px;
+  block-size: 50px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #667eea;
+  border-block-start: 4px solid #667eea;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

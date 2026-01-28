@@ -1,0 +1,36 @@
+# --- DEPENDENCIES (Frontend & Backend) ---
+node_modules/
+
+# --- ENVIRONMENT VARIABLES 
+.env
+.env.*
+!.env.example  # Kecualikan file contoh (biar orang lain tau formatnya)
+*.env
+
+# --- BUILD OUTPUT ---
+build/
+dist/
+out/
+coverage/
+
+# --- IDE & OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- LOGS ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# --- DOCKER & DATABASE ---
+pgdata/
+postgres_data/
+
+# --- MISC ---
+.cache/
+tmp/
