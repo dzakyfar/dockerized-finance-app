@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Node.js (TS)",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            // Pastikan nama file ini BENAR. Kalau filemu index.ts, ganti jadi index.ts
+            "program": "${workspaceFolder}/main.ts",
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ]
+        }
+    ]
+}
