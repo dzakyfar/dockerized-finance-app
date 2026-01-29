@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { getStatisticsByCategory, getTotalExpenses, getExpenses, addExpense, deleteExpense, getCategories } from '../services/api';
 import './Dashboard.css';
