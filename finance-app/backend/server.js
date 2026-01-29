@@ -44,10 +44,7 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     // Cek apakah username sudah ada
-    const userExists = await pool.query(
-      'SELECT * FROM users WHERE username = $1',
-      [username]
-    );
+    const userExists = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
 
     if (userExists.rows.length > 0) {
       return res.status(400).json({ error: 'Username sudah digunakan' });
@@ -64,7 +61,7 @@ app.post('/api/auth/register', async (req, res) => {
 
     res.status(201).json({
       message: 'Registrasi berhasil',
-      user: result.rows[0]
+      user: result.rows[0],
     });
   } catch (error) {
     console.error('Error register:', error);
@@ -78,10 +75,7 @@ app.post('/api/auth/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Cari user
-    const result = await pool.query(
-      'SELECT * FROM users WHERE username = $1',
-      [username]
-    );
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
 
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Username atau password salah' });
@@ -96,11 +90,9 @@ app.post('/api/auth/login', async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+      expiresIn: '7d',
+    });
 
     res.json({
       message: 'Login berhasil',
@@ -109,8 +101,8 @@ app.post('/api/auth/login', async (req, res) => {
         id: user.id,
         username: user.username,
         full_name: user.full_name,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (error) {
     console.error('Error login:', error);
@@ -182,7 +174,7 @@ app.post('/api/expenses', authenticateToken, async (req, res) => {
 
     res.status(201).json({
       message: 'Pengeluaran berhasil ditambahkan',
-      expense: result.rows[0]
+      expense: result.rows[0],
     });
   } catch (error) {
     console.error('Error add expense:', error);
@@ -208,7 +200,7 @@ app.put('/api/expenses/:id', authenticateToken, async (req, res) => {
 
     res.json({
       message: 'Pengeluaran berhasil diupdate',
-      expense: result.rows[0]
+      expense: result.rows[0],
     });
   } catch (error) {
     console.error('Error update expense:', error);
