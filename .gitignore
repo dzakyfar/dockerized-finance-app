@@ -4,7 +4,7 @@ node_modules/
 # --- ENVIRONMENT VARIABLES 
 .env
 .env.*
-!.env.example  # Kecualikan file contoh (biar orang lain tau formatnya)
+!.env.example  
 *.env
 
 # --- BUILD OUTPUT ---
