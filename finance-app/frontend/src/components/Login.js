@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { login, register } from '../services/api';
 import './Login.css';
+
 
 function Login({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);
