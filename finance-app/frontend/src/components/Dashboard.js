@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { getStatisticsByCategory, getTotalExpenses, getExpenses, addExpense, deleteExpense, getCategories } from '../services/api';
+import {
+  getStatisticsByCategory,
+  getTotalExpenses,
+  getExpenses,
+  addExpense,
+  deleteExpense,
+  getCategories,
+} from '../services/api';
 import './Dashboard.css';
 
 function Dashboard({ user, onLogout }) {
@@ -15,7 +22,7 @@ function Dashboard({ user, onLogout }) {
     category_id: '',
     amount: '',
     description: '',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
   });
 
   const fetchCategories = useCallback(async () => {
@@ -33,9 +40,9 @@ function Dashboard({ user, onLogout }) {
       const [statsRes, totalRes, expensesRes] = await Promise.all([
         getStatisticsByCategory(selectedMonth, selectedYear),
         getTotalExpenses(selectedMonth, selectedYear),
-        getExpenses(selectedMonth, selectedYear)
+        getExpenses(selectedMonth, selectedYear),
       ]);
-  
+
       setStats(statsRes.data);
       setTotalExpense(totalRes.data.total);
       setExpenses(expensesRes.data);
@@ -44,19 +51,16 @@ function Dashboard({ user, onLogout }) {
     }
   }, [selectedMonth, selectedYear]);
 
-
-
   // Fetch categories saat component mount
-// Load categories sekali saat mount
-useEffect(() => {
-  fetchCategories();
-}, [fetchCategories]);
+  // Load categories sekali saat mount
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
-// Reload data saat bulan / tahun berubah
-useEffect(() => {
-  fetchData();
-}, [fetchData]);
-
+  // Reload data saat bulan / tahun berubah
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleAddExpense = async (e) => {
     e.preventDefault();
@@ -67,7 +71,7 @@ useEffect(() => {
         category_id: '',
         amount: '',
         description: '',
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
       });
       fetchData();
     } catch (error) {
@@ -87,24 +91,36 @@ useEffect(() => {
     }
   };
 
-  const pieData = stats.filter(s => s.total > 0).map(stat => ({
-    name: stat.name,
-    value: parseFloat(stat.total),
-    color: stat.color
-  }));
+  const pieData = stats
+    .filter((s) => s.total > 0)
+    .map((stat) => ({
+      name: stat.name,
+      value: parseFloat(stat.total),
+      color: stat.color,
+    }));
 
-  const maxTotal = Math.max(...stats.map(s => parseFloat(s.total)));
+  const maxTotal = Math.max(...stats.map((s) => parseFloat(s.total)));
 
   const months = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
   ];
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
-      minimumFractionDigits: 0
+      minimumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -117,7 +133,9 @@ useEffect(() => {
         </div>
         <div className="nav-right">
           <span className="nav-user">👋 {user.full_name || user.username}</span>
-          <button onClick={onLogout} className="btn-logout">Logout</button>
+          <button onClick={onLogout} className="btn-logout">
+            Logout
+          </button>
         </div>
       </nav>
 
@@ -125,22 +143,26 @@ useEffect(() => {
         <div className="dashboard-header">
           <h1>Dashboard Keuangan</h1>
           <div className="header-controls">
-            <select 
-              value={selectedMonth} 
+            <select
+              value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
               className="select-month"
             >
               {months.map((month, idx) => (
-                <option key={idx} value={idx + 1}>{month}</option>
+                <option key={idx} value={idx + 1}>
+                  {month}
+                </option>
               ))}
             </select>
-            <select 
-              value={selectedYear} 
+            <select
+              value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
               className="select-year"
             >
-              {[2024, 2025, 2026].map(year => (
-                <option key={year} value={year}>{year}</option>
+              {[2024, 2025, 2026].map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
               ))}
             </select>
             <button onClick={() => setShowAddModal(true)} className="btn-add">
@@ -152,7 +174,9 @@ useEffect(() => {
         <div className="stats-card total-card">
           <h3>Total Pengeluaran</h3>
           <p className="total-amount">{formatCurrency(totalExpense)}</p>
-          <p className="total-period">{months[selectedMonth - 1]} {selectedYear}</p>
+          <p className="total-period">
+            {months[selectedMonth - 1]} {selectedYear}
+          </p>
         </div>
 
         <div className="dashboard-grid">
@@ -194,14 +218,16 @@ useEffect(() => {
                     <div className="category-header">
                       <span className="category-icon">{stat.icon}</span>
                       <span className="category-name">{stat.name}</span>
-                      <span className="category-amount">{formatCurrency(parseFloat(stat.total))}</span>
+                      <span className="category-amount">
+                        {formatCurrency(parseFloat(stat.total))}
+                      </span>
                     </div>
                     <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ 
+                      <div
+                        className="progress-fill"
+                        style={{
                           width: `${percentage}%`,
-                          backgroundColor: stat.color 
+                          backgroundColor: stat.color,
                         }}
                       ></div>
                     </div>
@@ -216,29 +242,30 @@ useEffect(() => {
         <div className="card expenses-card">
           <h2>Riwayat Transaksi</h2>
           <div className="expenses-list">
-            {expenses.length > 0 ? expenses.map((expense) => (
-              <div key={expense.id} className="expense-item">
-                <div className="expense-icon" style={{ backgroundColor: expense.color }}>
-                  {expense.icon}
+            {expenses.length > 0 ? (
+              expenses.map((expense) => (
+                <div key={expense.id} className="expense-item">
+                  <div className="expense-icon" style={{ backgroundColor: expense.color }}>
+                    {expense.icon}
+                  </div>
+                  <div className="expense-details">
+                    <h4>{expense.category_name}</h4>
+                    <p>{expense.description || 'Tidak ada deskripsi'}</p>
+                    <span className="expense-date">
+                      {new Date(expense.date).toLocaleDateString('id-ID')}
+                    </span>
+                  </div>
+                  <div className="expense-right">
+                    <span className="expense-amount">
+                      {formatCurrency(parseFloat(expense.amount))}
+                    </span>
+                    <button onClick={() => handleDeleteExpense(expense.id)} className="btn-delete">
+                      🗑️
+                    </button>
+                  </div>
                 </div>
-                <div className="expense-details">
-                  <h4>{expense.category_name}</h4>
-                  <p>{expense.description || 'Tidak ada deskripsi'}</p>
-                  <span className="expense-date">
-                    {new Date(expense.date).toLocaleDateString('id-ID')}
-                  </span>
-                </div>
-                <div className="expense-right">
-                  <span className="expense-amount">{formatCurrency(parseFloat(expense.amount))}</span>
-                  <button 
-                    onClick={() => handleDeleteExpense(expense.id)}
-                    className="btn-delete"
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </div>
-            )) : (
+              ))
+            ) : (
               <p className="no-data">Belum ada transaksi</p>
             )}
           </div>
@@ -254,13 +281,13 @@ useEffect(() => {
                 <label>Kategori</label>
                 <select
                   value={newExpense.category_id}
-                  onChange={(e) => setNewExpense({...newExpense, category_id: e.target.value})}
+                  onChange={(e) => setNewExpense({ ...newExpense, category_id: e.target.value })}
                   required
                 >
                   <option value="">Pilih Kategori</option>
                   {/* PERBAIKAN: Gunakan categories, bukan stats */}
                   {categories.length > 0 ? (
-                    categories.map(category => (
+                    categories.map((category) => (
                       <option key={category.id} value={category.id}>
                         {category.icon} {category.name}
                       </option>
@@ -275,7 +302,7 @@ useEffect(() => {
                 <input
                   type="number"
                   value={newExpense.amount}
-                  onChange={(e) => setNewExpense({...newExpense, amount: e.target.value})}
+                  onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
                   placeholder="Contoh: 50000"
                   required
                 />
@@ -285,7 +312,7 @@ useEffect(() => {
                 <input
                   type="text"
                   value={newExpense.description}
-                  onChange={(e) => setNewExpense({...newExpense, description: e.target.value})}
+                  onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
                   placeholder="Deskripsi pengeluaran (opsional)"
                 />
               </div>
@@ -294,7 +321,7 @@ useEffect(() => {
                 <input
                   type="date"
                   value={newExpense.date}
-                  onChange={(e) => setNewExpense({...newExpense, date: e.target.value})}
+                  onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
                   required
                 />
               </div>

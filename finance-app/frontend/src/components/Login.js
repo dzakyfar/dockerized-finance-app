@@ -8,7 +8,7 @@ function Login({ onLogin }) {
     username: '',
     password: '',
     full_name: '',
-    email: ''
+    email: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ function Login({ onLogin }) {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     setError('');
   };

@@ -11,7 +11,7 @@ function App() {
     // Cek apakah user sudah login sebelumnya
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
-    
+
     if (token && savedUser) {
       setUser(JSON.parse(savedUser));
     }
@@ -39,11 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      {user ? (
-        <Dashboard user={user} onLogout={handleLogout} />
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
+      {user ? <Dashboard user={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}
     </div>
   );
 }
