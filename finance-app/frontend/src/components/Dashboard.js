@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { getStatisticsByCategory, getTotalExpenses, getExpenses, addExpense, deleteExpense, getCategories } from '../services/api';
 import './Dashboard.css';
@@ -18,42 +18,45 @@ function Dashboard({ user, onLogout }) {
     date: new Date().toISOString().split('T')[0]
   });
 
-  // Fetch categories saat component mount
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [selectedMonth, selectedYear]);
-
-  // Function untuk fetch categories
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await getCategories();
       setCategories(response.data);
-      console.log('Categories loaded:', response.data); // Debug
     } catch (error) {
       console.error('Error fetching categories:', error);
       alert('Gagal memuat kategori. Pastikan backend running!');
     }
-  };
+  }, []);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [statsRes, totalRes, expensesRes] = await Promise.all([
         getStatisticsByCategory(selectedMonth, selectedYear),
         getTotalExpenses(selectedMonth, selectedYear),
         getExpenses(selectedMonth, selectedYear)
       ]);
-      
+  
       setStats(statsRes.data);
       setTotalExpense(totalRes.data.total);
       setExpenses(expensesRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
+  }, [selectedMonth, selectedYear]);
+
+
+
+  // Fetch categories saat component mount
+// Load categories sekali saat mount
+useEffect(() => {
+  fetchCategories();
+}, [fetchCategories]);
+
+// Reload data saat bulan / tahun berubah
+useEffect(() => {
+  fetchData();
+}, [fetchData]);
+
 
   const handleAddExpense = async (e) => {
     e.preventDefault();
@@ -197,7 +200,7 @@ function Dashboard({ user, onLogout }) {
                       <div 
                         className="progress-fill" 
                         style={{ 
-                          width: "${percentage}%",
+                          width: `${percentage}%`,
                           backgroundColor: stat.color 
                         }}
                       ></div>
