@@ -8,7 +8,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            // Pastikan nama file ini BENAR. Kalau filemu index.ts, ganti jadi index.ts
+            // 
             "program": "${workspaceFolder}/main.ts",
             "cwd": "${workspaceFolder}",
             "runtimeArgs": [
