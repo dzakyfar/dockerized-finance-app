@@ -1,0 +1,19 @@
+services:
+
+  backend:
+    build: ./finance-app/backend
+    container_name: backend
+    restart: always
+    env_file:
+      - ./finance-app/backend/.env
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./finance-app/frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
